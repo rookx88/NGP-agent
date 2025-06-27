@@ -12,7 +12,7 @@ class BroadcastScheduler:
         self.twitter_client = get_twitter_client()
         self.host = VintageRadioHost(twitter_client=self.twitter_client)
         
-    def post_daily_broadcast(self, dry_run: bool = False) -> dict:
+    def post_daily_broadcast(self, dry_run: bool = True) -> dict:
         """Execute full flow without actual posting when dry_run=True"""
         content = self.host.generate_daily_broadcast()
         
