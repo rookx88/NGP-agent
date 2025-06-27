@@ -12,7 +12,7 @@ class BroadcastScheduler:
         self.twitter_client = get_twitter_client()
         self.host = VintageRadioHost(twitter_client=self.twitter_client)
         
-    def post_daily_broadcast(self, dry_run: bool = True) -> dict:
+    def post_daily_broadcast(self, dry_run: bool = False) -> dict:
         """Execute full flow without actual posting when dry_run=True"""
         content = self.host.generate_daily_broadcast()
         
@@ -29,12 +29,16 @@ class BroadcastScheduler:
             }
         
         # Proceed with real posting
-        return self._post_tweet(content['text'], content['image_url'])
+        media_id = self._upload_media(content['image_url'])
+        return self._post_tweet(content['text'], media_id)
 
     def _upload_media(self, image_url):
         if image_url:
-            # Download image
-            response = requests.get(image_url, timeout=10)
+            # Download image with a custom User-Agent to comply with
+            # Wikimedia's policy. The default python-requests agent is
+            # often blocked with a 403 error.
+            headers = {"User-Agent": "HistoricalRadioBot/1.0"}
+            response = requests.get(image_url, headers=headers, timeout=10)
             response.raise_for_status()
             
             # Upload to Twitter
@@ -64,5 +68,5 @@ class BroadcastScheduler:
 
 if __name__ == "__main__":
     scheduler = BroadcastScheduler()
-    result = scheduler.post_daily_broadcast(dry_run=True)
-    print("Dry run result:", result) 
+    result = scheduler.post_daily_broadcast()
+    print("Post result:", result)
