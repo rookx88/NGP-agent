@@ -34,8 +34,11 @@ class BroadcastScheduler:
 
     def _upload_media(self, image_url):
         if image_url:
-            # Download image
-            response = requests.get(image_url, timeout=10)
+            # Download image with a custom User-Agent to comply with
+            # Wikimedia's policy. The default python-requests agent is
+            # often blocked with a 403 error.
+            headers = {"User-Agent": "HistoricalRadioBot/1.0"}
+            response = requests.get(image_url, headers=headers, timeout=10)
             response.raise_for_status()
             
             # Upload to Twitter
