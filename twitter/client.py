@@ -1,11 +1,9 @@
 import tweepy
 import os
 from dotenv import load_dotenv
-from .utils import get_twitter_client
 import logging
 import time
 from tweepy import Client
-from .core import get_client
 from time import sleep
 import requests
 
@@ -57,12 +55,39 @@ def start_stream(callback):
     return stream 
 
 class TwitterAPIClient:
+    """Wrapper providing both v1 and v2 Twitter functionality."""
+
     def __init__(self):
+        load_dotenv()
+
+        # v1.1 API client for media uploads
+        auth = tweepy.OAuth1UserHandler(
+            os.getenv('TWITTER_CONSUMER_KEY'),
+            os.getenv('TWITTER_CONSUMER_SECRET'),
+            os.getenv('TWITTER_ACCESS_TOKEN'),
+            os.getenv('TWITTER_ACCESS_SECRET'),
+        )
+        self.v1 = tweepy.API(auth, wait_on_rate_limit=True)
+
+        # v2 client for posting tweets and other endpoints
+        self.client = tweepy.Client(
+            bearer_token=os.getenv('TWITTER_BEARER_TOKEN'),
+            consumer_key=os.getenv('TWITTER_CONSUMER_KEY'),
+            consumer_secret=os.getenv('TWITTER_CONSUMER_SECRET'),
+            access_token=os.getenv('TWITTER_ACCESS_TOKEN'),
+            access_token_secret=os.getenv('TWITTER_ACCESS_SECRET'),
+            wait_on_rate_limit=True,
+        )
+
         self.base_url = "https://api.twitter.com/2"
         self.headers = {
             "Authorization": f"Bearer {os.getenv('TWITTER_BEARER_TOKEN')}",
             "User-Agent": "HistoricalRadioBot/1.0"
         }
+
+    def create_tweet(self, *args, **kwargs):
+        """Proxy to Tweepy Client.create_tweet"""
+        return self.client.create_tweet(*args, **kwargs)
     
     def get_trends(self, woeid: int) -> dict:
         """Get trends using official API v2 endpoint"""
