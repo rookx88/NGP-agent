@@ -6,6 +6,7 @@ import logging
 import re
 import json
 from typing import Dict, Optional
+import textwrap
 import requests  # Add to imports
 
 logger = logging.getLogger(__name__)
@@ -291,9 +292,12 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
 
     def _find_historical_analogue(self, modern_topic: str) -> dict:
         """Force specific, concise historical data"""
-        prompt = f"""Return ONLY a JSON object comparing {modern_topic} to pre-1950 history.
-        Required format:
-        {{"year": 1927, "event": "Lindbergh Atlantic Flight", "location": "New York", "challenge": "First solo Atlantic flight", "parallel": "{modern_topic} connection"}}"""
+        prompt = textwrap.dedent(f"""
+            Suggest a pre-1950 event that parallels {modern_topic}.
+            Respond only with JSON:
+            {{"year": 1945, "event": "<event name>", "location": "<place>",
+              "challenge": "<why it was notable>", "parallel": "connection to {modern_topic}"}}
+        """)
         
         try:
             # Remove response_format parameter
@@ -313,10 +317,10 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
         except Exception as e:
             logger.error(f"Historical analogue error: {e}")
             return {
-                "year": 1927,
-                "event": "Historical Innovation",
-                "location": "United States",
-                "challenge": "Technological advancement",
+                "year": 1945,
+                "event": "Historical Event",
+                "location": "Unknown",
+                "challenge": "Notable circumstance",
                 "parallel": modern_topic  # Pass string directly
             }
 
