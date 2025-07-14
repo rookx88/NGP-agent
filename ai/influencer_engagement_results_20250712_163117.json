@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-07-12T16:31:17.252793",
+  "config": {
+    "max_users": 5,
+    "posts_per_user": 20,
+    "min_post_quality": 0.3,
+    "prefer_recent_days": 7,
+    "engagement_types": [
+      "reply",
+      "quote_tweet",
+      "mention"
+    ],
+    "rate_limit_delay": 3.0,
+    "max_trends_per_theme": 2,
+    "enable_quality_fallback": true,
+    "user_weights": {
+      "verified": 1.0,
+      "high_followers": 0.9,
+      "medium_followers": 0.7,
+      "low_followers": 0.5
+    }
+  },
+  "engagement_packages": [
+    {
+      "username": "elonmusk",
+      "post_id": "1943948060868194552",
+      "post_text": "Best AI voice mode in the world is @Grok https://t.co/gir3fJUISW",
+      "post_created_at": "2025-07-12T08:18:29.000Z",
+      "post_metrics": {
+        "retweet_count": 4388,
+        "reply_count": 3567,
+        "like_count": 22923,
+        "quote_count": 169,
+        "bookmark_count": 1690,
+        "impression_count": 7061181
+      },
+      "quality_score": 0.553228201077336,
+      "quality_breakdown": {
+        "engagement_rate": 0.010760670257786575,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "AI",
+      "all_angles": [
+        "Excited to see where @Grok takes AI; what's next for voice tech advancements?",
+        "Grok's cool, but does it handle diverse accents well? Curious to hear more!",
+        "AI is vast; why prioritize voice tech over other sectors for impact?",
+        "Tried Grok, and it's impressive! Innovations like these make AI relatable."
+      ],
+      "chosen_angle": "AI is vast; why prioritize voice tech over other sectors for impact?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Why the big focus on voice tech, @elonmusk? 🤔 AI has so many avenues for impact, like healthcare or climate solutions. Voice is cool, but should it be the top priority? Let's chat about where AI can really change the game! 🌍✨ #AIRevolution",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-jM3pTiDRpOaD9wlhkG4KlARR.png?st=2025-07-12T22%3A30%3A16Z&se=2025-07-13T00%3A30%3A16Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T10%3A36%3A16Z&ske=2025-07-13T10%3A36%3A16Z&sks=b&skv=2024-08-04&sig=x6nTkQ02TLmvOOiergSoxvkPijr1JQm7%2B8VaN0%2BfOfk%3D"
+    },
+    {
+      "username": "naval",
+      "post_id": "1943942325585031297",
+      "post_text": "Never gets old… https://t.co/Zlarm0OJMh",
+      "post_created_at": "2025-07-12T07:55:41.000Z",
+      "post_metrics": {
+        "retweet_count": 322,
+        "reply_count": 118,
+        "like_count": 3090,
+        "quote_count": 26,
+        "bookmark_count": 1927,
+        "impression_count": 244967
+      },
+      "quality_score": 0.5186550607287449,
+      "quality_breakdown": {
+        "engagement_rate": 0.005516869095816464,
+        "content_length": 0.78,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Love the classics! Ever wonder which tech will never age like a fine wine?",
+        "What about tech do you think always feels fresh, regardless of age?",
+        "Aging makes some things better. Does tech always improve with time?",
+        "Remember dial-up internet? Crazy to see how far we've come!"
+      ],
+      "chosen_angle": "What about tech do you think always feels fresh, regardless of age?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Quote Tweet: \n\nWhat about tech always feels fresh, regardless of age? 🤔 It's that spark of innovation and potential for change. From the first PCs to today's AI, tech constantly reinvents the game. 🚀 What do you think never gets old in tech? #Innovation #TechTalk",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-1K8c5QpSmKWHJtVgtsKsVMIh.png?st=2025-07-12T22%3A30%3A42Z&se=2025-07-13T00%3A30%3A42Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T19%3A31%3A40Z&ske=2025-07-13T19%3A31%3A40Z&sks=b&skv=2024-08-04&sig=BcjFaDZvpA0OcjEzhUj2PV9%2BCaiL%2B9sSKrJHeIIuxUQ%3D"
+    },
+    {
+      "username": "sama",
+      "post_id": "1943837550369812814",
+      "post_text": "we planned to launch our open-weight model next week.\n\nwe are delaying it; we need time to run additional safety tests and review high-risk areas. we are not yet sure how long it will take us.\n\nwhile we trust the community will build great things with this model, once weights are",
+      "post_created_at": "2025-07-12T00:59:21.000Z",
+      "post_metrics": {
+        "retweet_count": 1081,
+        "reply_count": 2152,
+        "like_count": 17549,
+        "quote_count": 674,
+        "bookmark_count": 1521,
+        "impression_count": 2857736
+      },
+      "quality_score": 0.5428014907117193,
+      "quality_breakdown": {
+        "engagement_rate": 0.026004969039064293,
+        "content_length": 0.9,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Safety first, always! What potential risks are you most focused on avoiding?",
+        "Appreciate the caution, but does delay impact trust in timely innovation?",
+        "Interesting choice. Why not let the community help with testing?",
+        "Once launched, how do you see this model shaping AI accessibility?"
+      ],
+      "chosen_angle": "Once launched, how do you see this model shaping AI accessibility?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "🚀 Excited to see @sama's commitment to safety with the open-weight model! Once it's out, how do you think it'll transform AI accessibility? 🌐 Will it democratize tech, or are there hurdles to overcome? Share your thoughts! #AIForAll #InnovationInProgress",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-DTk4f9iXTAVNWvjvAj8vzKE2.png?st=2025-07-12T22%3A31%3A17Z&se=2025-07-13T00%3A31%3A17Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T09%3A01%3A42Z&ske=2025-07-13T09%3A01%3A42Z&sks=b&skv=2024-08-04&sig=3WiZfYXI44rhA60wVyMfOjfbfs8PJOM2/eqDAbMsQkE%3D"
+    }
+  ],
+  "summary": {
+    "total_packages": 3,
+    "themes_covered": [
+      "Technology",
+      "AI"
+    ],
+    "strategies_used": [
+      "quote_tweet"
+    ]
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-07-12T15:26:54.644214",
+  "config": {
+    "max_users": 5,
+    "posts_per_user": 20,
+    "min_post_quality": 0.3,
+    "prefer_recent_days": 7,
+    "engagement_types": [
+      "reply",
+      "quote_tweet",
+      "mention"
+    ],
+    "rate_limit_delay": 3.0,
+    "max_trends_per_theme": 2,
+    "enable_quality_fallback": true,
+    "user_weights": {
+      "verified": 1.0,
+      "high_followers": 0.9,
+      "medium_followers": 0.7,
+      "low_followers": 0.5
+    }
+  },
+  "engagement_packages": [
+    {
+      "username": "elonmusk",
+      "post_id": "1943948060868194552",
+      "post_text": "Best AI voice mode in the world is @Grok https://t.co/gir3fJUISW",
+      "post_created_at": "2025-07-12T08:18:29.000Z",
+      "post_metrics": {
+        "retweet_count": 4207,
+        "reply_count": 3501,
+        "like_count": 22349,
+        "quote_count": 163,
+        "bookmark_count": 1636,
+        "impression_count": 6780250
+      },
+      "quality_score": 0.5532367605725864,
+      "quality_breakdown": {
+        "engagement_rate": 0.010789201908621478,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "AI",
+      "all_angles": [
+        "Grok's voice tech is game-changing! What makes it stand out for you, Elon?",
+        "How does Grok compare to other AI voices in real-world usage?",
+        "Interesting take! I find different AI voices better in specific contexts. Thoughts?",
+        "Excited to see how AI voice tech can transform accessibility and user experience!"
+      ],
+      "chosen_angle": "How does Grok compare to other AI voices in real-world usage?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Curious about how Grok stacks up against other AI voices in real-world scenarios? 🤔 From customer service to creative projects, it’s all about clarity, naturalness, and adaptability. 🚀 #AIRevolution #GrokComparison",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-saXDDY6NBLmFAV1iJoyWod5E.png?st=2025-07-12T21%3A25%3A42Z&se=2025-07-12T23%3A25%3A42Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T16%3A22%3A13Z&ske=2025-07-13T16%3A22%3A13Z&sks=b&skv=2024-08-04&sig=lIoj0Gn6Urf094AVXFaBQ42TeabiTOrMD90KT0VRJFo%3D"
+    },
+    {
+      "username": "naval",
+      "post_id": "1943942325585031297",
+      "post_text": "Never gets old… https://t.co/Zlarm0OJMh",
+      "post_created_at": "2025-07-12T07:55:41.000Z",
+      "post_metrics": {
+        "retweet_count": 310,
+        "reply_count": 115,
+        "like_count": 3024,
+        "quote_count": 25,
+        "bookmark_count": 1866,
+        "impression_count": 238144
+      },
+      "quality_score": 0.518618036776636,
+      "quality_breakdown": {
+        "engagement_rate": 0.005393455922120065,
+        "content_length": 0.78,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Always inspiring, Naval! How do you see AI evolving in the next decade?",
+        "Old wisdom, new tech. Could they clash or harmonize?",
+        "Tech changes, but fundamentals stay. Curious about your take on this!",
+        "Seen tech trends come and go—what tech never gets old for you?"
+      ],
+      "chosen_angle": "Always inspiring, Naval! How do you see AI evolving in the next decade?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Always inspiring, Naval! 🚀 Your insights never age. Curious to hear your thoughts on how AI will shape our world in the next decade. Will it enhance our creativity or redefine what it means to be human? 🤖🔍 #FutureTalks #TechVisionaries",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-3gAhWerabZ4CaVAVAhYrg2Wj.png?st=2025-07-12T21%3A26%3A25Z&se=2025-07-12T23%3A26%3A25Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T10%3A34%3A13Z&ske=2025-07-13T10%3A34%3A13Z&sks=b&skv=2024-08-04&sig=xEQYg%2BI%2B0XTCNHOSU5YEudIRntpHOtNNmfcTRrat7CE%3D"
+    },
+    {
+      "username": "sama",
+      "post_id": "1943837550369812814",
+      "post_text": "we planned to launch our open-weight model next week.\n\nwe are delaying it; we need time to run additional safety tests and review high-risk areas. we are not yet sure how long it will take us.\n\nwhile we trust the community will build great things with this model, once weights are",
+      "post_created_at": "2025-07-12T00:59:21.000Z",
+      "post_metrics": {
+        "retweet_count": 1068,
+        "reply_count": 2125,
+        "like_count": 17397,
+        "quote_count": 670,
+        "bookmark_count": 1512,
+        "impression_count": 2806173
+      },
+      "quality_score": 0.5427341457253737,
+      "quality_breakdown": {
+        "engagement_rate": 0.025780485751245762,
+        "content_length": 0.9,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Safety first! Appreciate the careful approach. What tests are you prioritizing?",
+        "Curious about the high-risk areas identified. Can you share some insights?",
+        "Delays can hinder progress. Is there a way to balance speed and safety better?",
+        "Similar experience with delays; they often lead to better outcomes. Keep at it!"
+      ],
+      "chosen_angle": "Curious about the high-risk areas identified. Can you share some insights?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Curious about the high-risk areas identified, @sama 🤔? Can you share some insights on what you're testing or what potential risks you're seeing? Transparency can help us all learn and innovate together! 🙌 #AICommunity #Innovation",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-9gjKmRSyr0WxxD0oKZql8yQA.png?st=2025-07-12T21%3A26%3A55Z&se=2025-07-12T23%3A26%3A55Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T05%3A05%3A33Z&ske=2025-07-13T05%3A05%3A33Z&sks=b&skv=2024-08-04&sig=Qr97WaD6gSrIplOGnBGCNL/DwzASHLnW0QtM6364/%2Bk%3D"
+    }
+  ],
+  "summary": {
+    "total_packages": 3,
+    "themes_covered": [
+      "Technology",
+      "AI"
+    ],
+    "strategies_used": [
+      "quote_tweet"
+    ]
+  }
+}

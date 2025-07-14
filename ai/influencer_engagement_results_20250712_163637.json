@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-07-12T16:36:37.491865",
+  "config": {
+    "max_users": 5,
+    "posts_per_user": 20,
+    "min_post_quality": 0.3,
+    "prefer_recent_days": 7,
+    "engagement_types": [
+      "reply",
+      "quote_tweet",
+      "mention"
+    ],
+    "rate_limit_delay": 3.0,
+    "max_trends_per_theme": 2,
+    "enable_quality_fallback": true,
+    "user_weights": {
+      "verified": 1.0,
+      "high_followers": 0.9,
+      "medium_followers": 0.7,
+      "low_followers": 0.5
+    }
+  },
+  "engagement_packages": [
+    {
+      "username": "elonmusk",
+      "post_id": "1943948060868194552",
+      "post_text": "Best AI voice mode in the world is @Grok https://t.co/gir3fJUISW",
+      "post_created_at": "2025-07-12T08:18:29.000Z",
+      "post_metrics": {
+        "retweet_count": 4368,
+        "reply_count": 3575,
+        "like_count": 22977,
+        "quote_count": 169,
+        "bookmark_count": 1695,
+        "impression_count": 7084204
+      },
+      "quality_score": 0.5532228128797084,
+      "quality_breakdown": {
+        "engagement_rate": 0.010742709599027947,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "AI",
+      "all_angles": [
+        "What makes Grok better than the proven champs like Google or Amazon?",
+        "Is Grok truly innovative or just another AI voice in the crowd?",
+        "I doubt Grok tops the real-world experience of other AIs.",
+        "World's best? Let's see Grok prove it with unbiased tests."
+      ],
+      "chosen_angle": "Is Grok truly innovative or just another AI voice in the crowd?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Is Grok truly redefining AI or just another voice drowned in the digital crowd Elon Musk's hype or genuine breakthrough Only time will tell 🤔",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-1jxClEB3D8nGUKtDfIy5E7Zo.png?st=2025-07-12T22%3A35%3A41Z&se=2025-07-13T00%3A35%3A41Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T11%3A21%3A58Z&ske=2025-07-13T11%3A21%3A58Z&sks=b&skv=2024-08-04&sig=L6C%2B9f8WQ5VX20sWgw4jhFYdFQ4C3qEA99zvVDjTwgM%3D"
+    },
+    {
+      "username": "naval",
+      "post_id": "1943942325585031297",
+      "post_text": "Never gets old… https://t.co/Zlarm0OJMh",
+      "post_created_at": "2025-07-12T07:55:41.000Z",
+      "post_metrics": {
+        "retweet_count": 323,
+        "reply_count": 118,
+        "like_count": 3097,
+        "quote_count": 26,
+        "bookmark_count": 1929,
+        "impression_count": 245498
+      },
+      "quality_score": 0.5186583463759512,
+      "quality_breakdown": {
+        "engagement_rate": 0.005527821253170705,
+        "content_length": 0.78,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Why cling to the past when the future's more exciting?",
+        "What exactly never gets old for you, naval?",
+        "Not everything timeless is valuable or wise.",
+        "Stuck in nostalgia or afraid to innovate?"
+      ],
+      "chosen_angle": "Not everything timeless is valuable or wise.",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Just because something never gets old doesn't mean it's valuable or wise time alone isn't a stamp of quality",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-076dTEKSvc7dj9OJ4xGjUreh.png?st=2025-07-12T22%3A36%3A10Z&se=2025-07-13T00%3A36%3A10Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T16%3A27%3A59Z&ske=2025-07-13T16%3A27%3A59Z&sks=b&skv=2024-08-04&sig=Zsojq49pAdE4TjpTgE96Z%2B3rWObOt/KOmM%2BW1RgXYwo%3D"
+    },
+    {
+      "username": "sama",
+      "post_id": "1943837550369812814",
+      "post_text": "we planned to launch our open-weight model next week.\n\nwe are delaying it; we need time to run additional safety tests and review high-risk areas. we are not yet sure how long it will take us.\n\nwhile we trust the community will build great things with this model, once weights are",
+      "post_created_at": "2025-07-12T00:59:21.000Z",
+      "post_metrics": {
+        "retweet_count": 1082,
+        "reply_count": 2152,
+        "like_count": 17556,
+        "quote_count": 674,
+        "bookmark_count": 1522,
+        "impression_count": 2861205
+      },
+      "quality_score": 0.5428037563925178,
+      "quality_breakdown": {
+        "engagement_rate": 0.02601252130839264,
+        "content_length": 0.9,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Are delays masking deeper issues with the model?",
+        "Is safety the real reason for the hold-up?",
+        "Delays stifle innovation—why not release and iterate?",
+        "Why not trust users to identify risks on launch?"
+      ],
+      "chosen_angle": "Delays stifle innovation—why not release and iterate?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "\"Delays stifle innovation. Why hold back when you can release and improve on the go? Trust the community to help refine it instead of waiting, @sama.\" 🚀",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-LpFHskHQMS8T49C9DUo4kKaO.png?st=2025-07-12T22%3A36%3A37Z&se=2025-07-13T00%3A36%3A37Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T23%3A36%3A37Z&ske=2025-07-13T23%3A36%3A37Z&sks=b&skv=2024-08-04&sig=eGPUuvPR3lskPJasxpXuYMZ67s9rBvRx9caOtgJtLt8%3D"
+    }
+  ],
+  "summary": {
+    "total_packages": 3,
+    "themes_covered": [
+      "AI",
+      "Technology"
+    ],
+    "strategies_used": [
+      "quote_tweet"
+    ]
+  }
+}

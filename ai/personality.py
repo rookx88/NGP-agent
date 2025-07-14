@@ -255,33 +255,44 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
             return self._get_fallback_trend()
 
     def _is_valid_trend(self, trend: dict) -> bool:
-        """Validate trend with detailed logging"""
+        """Validate trend meets criteria"""
         name = trend.get('name', '')
+        volume = trend.get('tweet_volume', 0)
         
-        logger.info(f"\nValidating trend: {name}")
+        # Reject generic/ambiguous terms
+        generic_terms = [
+            'Creators', 'Engage', 'ROPE IT', 'ATTNtoken',
+            'Trending', 'Viral', 'Popular', 'Hot', 'New',
+            'Breaking', 'Update', 'News', 'Info', 'Data'
+        ]
         
-        if name.startswith(('#', '$')):
-            logger.info(f"Rejected: Starts with # or $")
+        # Reject if it's too generic
+        if name in generic_terms:
             return False
         
-        if len(name) > 50:
-            logger.info(f"Rejected: Too long ({len(name)} chars)")
+        # Reject single words that are too common
+        if len(name.split()) == 1 and len(name) < 8:
             return False
         
-        if any(banned in name.lower() for banned in ['porn', 'crypto', 'nft']):
-            logger.info(f"Rejected: Contains banned word")
+        # Require minimum tweet volume for relevance
+        if volume < 50000:  # Increase from 10000
             return False
         
-        logger.info(f"✓ Accepted trend: {name}")
-        return True
+        return (
+            not name.startswith(('#', '$')) and
+            len(name) <= 50 and
+            not any(banned in name.lower() for banned in ['porn', 'crypto', 'nft'])
+        )
 
     def _get_fallback_trend(self) -> dict:
         """Fallback to historical tech topics"""
         fallbacks = [
-            "Artificial Intelligence", 
-            "Space Exploration",
-            "Renewable Energy",
-            "Climate Change"
+            "ChatGPT and AI Development",
+            "SpaceX Mars Mission",
+            "Climate Change Solutions",
+            "Electric Vehicle Revolution",
+            "Quantum Computing Breakthroughs",
+            "Global Supply Chain Issues"
         ]
         selected = random.choice(fallbacks)
         logger.warning(f"Using fallback trend: {selected}")
@@ -331,8 +342,8 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
     def _craft_narrative(self, trend: dict, history: dict) -> dict:
         """Force valid JSON structure"""
         prompt = f"""Return JSON ONLY (no text) comparing {trend['topic']} to history.
-        Provide detailed responses using 400-600 characters for each field. 
-        Stay focused on {history['event']} from {history['year']} - do not switch historical events.
+        Provide detailed responses using 400-600 characters for each field.
+        IMPORTANT: Return valid JSON with proper commas and no duplicate keys.
         Format: {{
             "opening": "warm, engaging radio greeting (400+ chars)",
             "past": "rich historical context about {history['event']} in {history['year']} (500+ chars)",
@@ -345,8 +356,10 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
         
         try:
             response = self._get_gpt_response(prompt)
-            # Extract JSON between curly braces
-            match = re.search(r'\{.*\}', response, re.DOTALL)
+            # Clean up the response more thoroughly
+            clean_response = re.sub(r'```json|```', '', response)
+            clean_response = re.sub(r'"[^"]*":\s*"[^"]*"[^"]*":', '",', clean_response)  # Remove duplicates
+            match = re.search(r'\{.*\}', clean_response, re.DOTALL)
             if not match:
                 raise ValueError("No JSON found in response")
             clean_response = match.group(0)
@@ -376,6 +389,11 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
             
             logger.info(f"Starting image search for: {history['event']}")
             
+            # Set up proper headers for Wikimedia
+            headers = {
+                'User-Agent': 'VintageRadioBot/1.0 (https://github.com/yourusername/NGP-agent; your-email@example.com) requests/2.31.0'
+            }
+            
             for query in search_queries:
                 search_params = {
                     'action': 'query',
@@ -391,6 +409,7 @@ You are Moxie, a 1930s radio host. Respond to @{user_handle}'s message:
                 response = requests.get(
                     "https://commons.wikimedia.org/w/api.php",
                     params=search_params,
+                    headers=headers,
                     timeout=10
                 ).json()
                 

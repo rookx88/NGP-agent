@@ -1,0 +1,133 @@
+{
+  "timestamp": "2025-07-13T09:42:25.105662",
+  "config": {
+    "max_users": 5,
+    "posts_per_user": 20,
+    "min_post_quality": 0.3,
+    "prefer_recent_days": 7,
+    "engagement_types": [
+      "reply",
+      "quote_tweet",
+      "mention"
+    ],
+    "rate_limit_delay": 3.0,
+    "max_trends_per_theme": 2,
+    "enable_quality_fallback": true,
+    "user_weights": {
+      "verified": 1.0,
+      "high_followers": 0.9,
+      "medium_followers": 0.7,
+      "low_followers": 0.5
+    }
+  },
+  "engagement_packages": [
+    {
+      "username": "elonmusk",
+      "post_id": "1944290693566148838",
+      "post_text": "Congrats @SpaceX team on 500 orbital spaceflight missions! https://t.co/4oIjqO9F3E",
+      "post_created_at": "2025-07-13T06:59:59.000Z",
+      "post_metrics": {
+        "retweet_count": 8948,
+        "reply_count": 4612,
+        "like_count": 83225,
+        "quote_count": 299,
+        "bookmark_count": 1651,
+        "impression_count": 12859112
+      },
+      "quality_score": 0.5571006403261339,
+      "quality_breakdown": {
+        "engagement_rate": 0.023668801087113178,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Is this worth the environmental cost, Elon?",
+        "Will these missions truly benefit humanity long-term?",
+        "Not everyone sees this as progress, perhaps it's excessive.",
+        "Could private space dominance stifle global cooperation?"
+      ],
+      "chosen_angle": "Could private space dominance stifle global cooperation?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "But at what cost? Could a single company's dominance in space hinder the spirit of global cooperation and shared progress? 🛰️",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-bsjifZgPeiGdTIDNisY9oPYi.png?st=2025-07-13T15%3A41%3A30Z&se=2025-07-13T17%3A41%3A30Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-13T15%3A43%3A56Z&ske=2025-07-14T15%3A43%3A56Z&sks=b&skv=2024-08-04&sig=ZDYec2nBV8gf4Is9C2myLEUARk7HJrRaEkryPttj7vY%3D"
+    },
+    {
+      "username": "naval",
+      "post_id": "1943942325585031297",
+      "post_text": "Never gets old… https://t.co/Zlarm0OJMh",
+      "post_created_at": "2025-07-12T07:55:41.000Z",
+      "post_metrics": {
+        "retweet_count": 436,
+        "reply_count": 125,
+        "like_count": 3843,
+        "quote_count": 33,
+        "bookmark_count": 2396,
+        "impression_count": 303277
+      },
+      "quality_score": 0.4904471310732415,
+      "quality_breakdown": {
+        "engagement_rate": 0.006728532148900169,
+        "content_length": 0.78,
+        "recency_score": 0.8571428571428572,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Is nostalgia a crutch for avoiding real innovation?",
+        "Why cling to the past when tech evolves daily?",
+        "Old ideas hold us back; it's time for fresh thinking.",
+        "Define 'old'—do we fear change or just comfort in the familiar?"
+      ],
+      "chosen_angle": "Define 'old'—do we fear change or just comfort in the familiar?",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "\"Never gets old\"—but what does \"old\" even mean? Is it the comfort of the same or the fear of change that keeps us stuck? 🤔",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-ZLGlEt3ZGgBCToaPRJn7KJv3.png?st=2025-07-13T15%3A41%3A59Z&se=2025-07-13T17%3A41%3A59Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-13T15%3A16%3A23Z&ske=2025-07-14T15%3A16%3A23Z&sks=b&skv=2024-08-04&sig=k79fEeef8NHwDDjVHBWdQxVOBChqs02iWZWt/BUPBrM%3D"
+    },
+    {
+      "username": "sama",
+      "post_id": "1943837550369812814",
+      "post_text": "we planned to launch our open-weight model next week.\n\nwe are delaying it; we need time to run additional safety tests and review high-risk areas. we are not yet sure how long it will take us.\n\nwhile we trust the community will build great things with this model, once weights are",
+      "post_created_at": "2025-07-12T00:59:21.000Z",
+      "post_metrics": {
+        "retweet_count": 1167,
+        "reply_count": 2301,
+        "like_count": 18926,
+        "quote_count": 714,
+        "bookmark_count": 1664,
+        "impression_count": 3224129
+      },
+      "quality_score": 0.5147331003866843,
+      "quality_breakdown": {
+        "engagement_rate": 0.02768176319370936,
+        "content_length": 0.9,
+        "recency_score": 0.8571428571428572,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Isn't it fear that's delaying innovation?",
+        "Why wasn't safety the first priority?",
+        "Delays undermine trust in AI commitment.",
+        "Are safety tests masking deeper flaws?"
+      ],
+      "chosen_angle": "Delays undermine trust in AI commitment.",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "\"Delays like this make it hard to trust your stated commitment to AI progress. If safety was a priority, why not anticipate these tests earlier?\" 🤔",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-fhOfgq3cU51HTPXDeCyO0ztv.png?st=2025-07-13T15%3A42%3A25Z&se=2025-07-13T17%3A42%3A25Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-13T15%3A54%3A44Z&ske=2025-07-14T15%3A54%3A44Z&sks=b&skv=2024-08-04&sig=7OCHyHlCamvf0rY5KwBfWEa6XbauMIJun6t3N9XC%2BYI%3D"
+    }
+  ],
+  "summary": {
+    "total_packages": 3,
+    "themes_covered": [
+      "Technology"
+    ],
+    "strategies_used": [
+      "quote_tweet"
+    ]
+  }
+}

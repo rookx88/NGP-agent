@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-07-13T10:02:02.925580",
+  "config": {
+    "max_users": 5,
+    "posts_per_user": 20,
+    "min_post_quality": 0.3,
+    "prefer_recent_days": 7,
+    "engagement_types": [
+      "reply",
+      "quote_tweet",
+      "mention"
+    ],
+    "rate_limit_delay": 3.0,
+    "max_trends_per_theme": 2,
+    "enable_quality_fallback": true,
+    "user_weights": {
+      "verified": 1.0,
+      "high_followers": 0.9,
+      "medium_followers": 0.7,
+      "low_followers": 0.5
+    }
+  },
+  "engagement_packages": [
+    {
+      "username": "unusual_whales",
+      "post_id": "1944170154486612214",
+      "post_text": "Trump: \"We're going to send some more weapons [to Ukraine.] We have to, they have to be able to defend themselves.\" https://t.co/LTv2z0rUl4",
+      "post_created_at": "2025-07-12T23:01:00.000Z",
+      "post_metrics": {
+        "retweet_count": 123,
+        "reply_count": 362,
+        "like_count": 1385,
+        "quote_count": 68,
+        "bookmark_count": 87,
+        "impression_count": 241257
+      },
+      "quality_score": 0.6023202991563583,
+      "quality_breakdown": {
+        "engagement_rate": 0.007734330521194555,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.5
+      },
+      "theme": "AI",
+      "all_angles": [
+        "Why arm them when diplomacy is the key?",
+        "Does funding war actually bring peace?",
+        "Weapon supply won't solve deeper issues.",
+        "Escalation isn't defense, it's provocation."
+      ],
+      "chosen_angle": "Weapon supply won't solve deeper issues.",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Weapon supply is just a band-aid on a bullet wound. 🎯 True peace requires addressing the root causes, not just sending more firepower.",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-LeVBtccuu9JFU4eQcykC4XSI.png?st=2025-07-13T16%3A01%3A10Z&se=2025-07-13T18%3A01%3A10Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-13T09%3A29%3A16Z&ske=2025-07-14T09%3A29%3A16Z&sks=b&skv=2024-08-04&sig=MzkgRoeFGcP4YgW8m1Qz0xvi2XfLDavIx9vHG4Y7chY%3D"
+    },
+    {
+      "username": "naval",
+      "post_id": "1943942325585031297",
+      "post_text": "Never gets old… https://t.co/Zlarm0OJMh",
+      "post_created_at": "2025-07-12T07:55:41.000Z",
+      "post_metrics": {
+        "retweet_count": 437,
+        "reply_count": 125,
+        "like_count": 3851,
+        "quote_count": 33,
+        "bookmark_count": 2397,
+        "impression_count": 303778
+      },
+      "quality_score": 0.49045045534864756,
+      "quality_breakdown": {
+        "engagement_rate": 0.006739613066920393,
+        "content_length": 0.78,
+        "recency_score": 0.8571428571428572,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "The old becomes obsolete; what's the point of nostalgia?",
+        "Why cling to the past? Isn't the future more exciting?",
+        "I disagree, overhyped past distracts from innovation.",
+        "Your 'never old' seems outdated; time to evolve."
+      ],
+      "chosen_angle": "I disagree, overhyped past distracts from innovation.",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "Disagree—clinging to a nostalgic past can stifle groundbreaking ideas. Let's prioritize future-forward innovation over replaying old tunes. 🎧",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-yMUkn5PZlMCyj7actAxabpof.png?st=2025-07-13T16%3A01%3A34Z&se=2025-07-13T18%3A01%3A34Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-12T19%3A25%3A29Z&ske=2025-07-13T19%3A25%3A29Z&sks=b&skv=2024-08-04&sig=4hZ0vh6ZG%2BHTX96MUpYocmI2tlPhG1aZNoWR7gU/kSs%3D"
+    },
+    {
+      "username": "signulll",
+      "post_id": "1944121252937183575",
+      "post_text": "i genuinely don’t get why so many dudes are waking around with crossbody bags now. what’s even in there??\n\ni walk around with just my phone. that’s it.",
+      "post_created_at": "2025-07-12T19:46:41.000Z",
+      "post_metrics": {
+        "retweet_count": 19,
+        "reply_count": 234,
+        "like_count": 1030,
+        "quote_count": 14,
+        "bookmark_count": 108,
+        "impression_count": 139987
+      },
+      "quality_score": 0.5523539320861779,
+      "quality_breakdown": {
+        "engagement_rate": 0.007846440287259508,
+        "content_length": 1.0,
+        "recency_score": 1.0,
+        "originality_score": 1.0,
+        "theme_relevance": 0.25
+      },
+      "theme": "Technology",
+      "all_angles": [
+        "Style over function? Ever considered what you're missing out on?",
+        "How do you survive with just a phone? Ever miss a key item?",
+        "More than a phone. It's called being prepared.",
+        "Why limit yourself? Convenience counts too."
+      ],
+      "chosen_angle": "More than a phone. It's called being prepared.",
+      "engagement_strategy": "quote_tweet",
+      "drafted_response": "More than a phone. It's called being prepared. 📱 Those crossbody bags? They're a game-changer. Why settle for just a phone when you can have everything you need at your fingertips?",
+      "visual_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-k5I7Uvygegp7hCgqxmDr0Tnz/user-0wUTD2SMrqmTs65c7jvM2N3q/img-dw5gN05SFYbvQK4PSYXcpcqb.png?st=2025-07-13T16%3A02%3A03Z&se=2025-07-13T18%3A02%3A03Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-13T06%3A31%3A35Z&ske=2025-07-14T06%3A31%3A35Z&sks=b&skv=2024-08-04&sig=xZdr7doBHpekY5PEPXUKGltXWV2Yy6dpWaQAwkUr9VU%3D"
+    }
+  ],
+  "summary": {
+    "total_packages": 3,
+    "themes_covered": [
+      "Technology",
+      "AI"
+    ],
+    "strategies_used": [
+      "quote_tweet"
+    ]
+  }
+}
