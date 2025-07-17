@@ -101,6 +101,9 @@ LAYER_CONFIDENCE = {
 # Blacklist of ambiguous terms that require tweet validation
 AMBIGUOUS_TERMS = {'Poles', 'Hill', 'Mitchell', 'Jones', 'Phil', 'Simpson', 'Dobbins', 'Holland', 'Metcalf', 'Dilbert', 'Bondi', 'Serrano', 'Taylor', 'Paul', 'Jake', 'Reed', 'Sheppard', 'Dustin', 'May', 'Gerard', 'Vientos', 'Alycia', 'Nicolandria', 'Chelley', 'Bryan', 'Huda', 'Chris', 'Iris'}
 
+# Add or update this near the top, after AMBIGUOUS_TERMS
+BROAD_AMBIGUOUS_TERMS = {'China', 'Coldplay', 'PlayWildcard', 'Chris Martin', 'AI', 'Technology', 'Sports', 'Gaming'}
+
 # Synonym expansion using WordNet
 try:
     import nltk
@@ -124,6 +127,20 @@ model = SentenceTransformer(MODEL_NAME)
 theme_sentences = {theme: " ".join(keywords) for theme, keywords in THEMES.items()}
 theme_embeddings = {theme: model.encode(sentence) for theme, sentence in theme_sentences.items()}
 
+# Add this near the top, after THEMES
+THEMATIC_PROXIMITY = {
+    'AI': {'Technology': 0.8, 'Gaming': 0.5, 'Sports': 0.2},
+    'Technology': {'AI': 0.8, 'Gaming': 0.6, 'Sports': 0.3},
+    'Gaming': {'Technology': 0.6, 'AI': 0.5, 'Sports': 0.4},
+    'Sports': {'Gaming': 0.4, 'Technology': 0.3, 'AI': 0.2},
+}
+
+def apply_thematic_proximity_penalty(trend_theme, matched_theme):
+    if trend_theme == matched_theme:
+        return 1.0
+    if trend_theme in THEMATIC_PROXIMITY and matched_theme in THEMATIC_PROXIMITY[trend_theme]:
+        return THEMATIC_PROXIMITY[trend_theme][matched_theme]
+    return 0.1  # Distant/unrelated
 
 def expand_synonyms(keywords):
     expanded = set(keywords)
@@ -784,57 +801,155 @@ def manual_override(trend_name):
     return []
 
 
-def match_themes(trend_name):
-    # 1. Manual override
+def match_themes(trend_name, tweet_context=None, expected_theme=None):
     manual = manual_override(trend_name)
     if manual:
         return manual
-    # 2. Direct keyword match
     direct = direct_keyword_match(trend_name)
-    if direct:
-        return direct
-    # 3. Fuzzy match
     fuzzy = fuzzy_match(trend_name)
-    if fuzzy:
-        return fuzzy
-    # 4. Synonym expansion is included in THEMES_EXPANDED
-    # 5. Semantic similarity
     semantic = semantic_similarity_match(trend_name)
-    if semantic:
-        return semantic
-    # 6. NER
     ner = ner_match(trend_name)
-    if ner:
-        return ner
+    tweet_context_themes = []
+    if tweet_context:
+        for tweet in tweet_context:
+            tweet_themes, _ = match_themes_with_confidence(tweet)
+            tweet_context_themes.extend(tweet_themes)
+    theme_votes = {}
+    for theme_list in [direct, fuzzy, semantic, ner, tweet_context_themes]:
+        for theme in theme_list:
+            if is_forced_flagged(trend_name, theme):
+                logger.info(f"Skipping user-flagged forced match: {trend_name} - {theme}")
+                continue
+            theme_votes[theme] = theme_votes.get(theme, 0) + 1
+    strong_themes = [theme for theme, count in theme_votes.items() if count >= 2]
+    ambiguous = any(term.lower() in trend_name.lower() for term in BROAD_AMBIGUOUS_TERMS)
+    if expected_theme and strong_themes:
+        proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in strong_themes]
+        min_prox = min(proximity_scores)
+        if min_prox < 0.5:
+            logger.info(f"Thematic proximity penalty for '{trend_name}': {strong_themes} (proximity {min_prox})")
+            return []
+    if strong_themes and (ambiguous or len(strong_themes) > 1):
+        logger.info(f"Multi-signal agreement for '{trend_name}': {strong_themes} [ambiguous/multi-theme]")
+        return strong_themes
+    if strong_themes:
+        logger.info(f"Multi-signal agreement for '{trend_name}': {strong_themes}")
+        return strong_themes
+    if direct and not ambiguous:
+        if expected_theme and direct:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in direct]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {direct} (proximity {min_prox})")
+                return []
+        return [t for t in direct if not is_forced_flagged(trend_name, t)]
+    if fuzzy and not ambiguous:
+        if expected_theme and fuzzy:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in fuzzy]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {fuzzy} (proximity {min_prox})")
+                return []
+        return [t for t in fuzzy if not is_forced_flagged(trend_name, t)]
+    if semantic and not ambiguous:
+        if expected_theme and semantic:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in semantic]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {semantic} (proximity {min_prox})")
+                return []
+        return [t for t in semantic if not is_forced_flagged(trend_name, t)]
+    if ner and not ambiguous:
+        if expected_theme and ner:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in ner]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {ner} (proximity {min_prox})")
+                return []
+        return [t for t in ner if not is_forced_flagged(trend_name, t)]
     return []
 
 
-def match_themes_with_confidence(trend_name):
-    # 1. Manual override
+def match_themes_with_confidence(trend_name, tweet_context=None, expected_theme=None):
     manual = manual_override(trend_name)
     if manual:
         logger.info(f"Manual override for '{trend_name}': {manual} (confidence {LAYER_CONFIDENCE['manual']})")
         return manual, LAYER_CONFIDENCE['manual']
-    # 2. Direct keyword match
     direct = direct_keyword_match(trend_name)
-    if direct:
-        logger.info(f"Direct keyword match for '{trend_name}': {direct} (confidence {LAYER_CONFIDENCE['direct']})")
-        return direct, LAYER_CONFIDENCE['direct']
-    # 3. Fuzzy match
     fuzzy = fuzzy_match(trend_name)
-    if fuzzy:
-        logger.info(f"Fuzzy match for '{trend_name}': {fuzzy} (confidence {LAYER_CONFIDENCE['fuzzy']})")
-        return fuzzy, LAYER_CONFIDENCE['fuzzy']
-    # 4. Semantic similarity
     semantic = semantic_similarity_match(trend_name)
-    if semantic:
-        logger.info(f"Semantic similarity match for '{trend_name}': {semantic} (confidence {LAYER_CONFIDENCE['semantic']})")
-        return semantic, LAYER_CONFIDENCE['semantic']
-    # 5. NER
     ner = ner_match(trend_name)
+    tweet_context_themes = []
+    if tweet_context:
+        for tweet in tweet_context:
+            tweet_themes, _ = match_themes_with_confidence(tweet)
+            tweet_context_themes.extend(tweet_themes)
+    theme_votes = {}
+    for theme_list in [direct, fuzzy, semantic, ner, tweet_context_themes]:
+        for theme in theme_list:
+            if is_forced_flagged(trend_name, theme):
+                logger.info(f"Skipping user-flagged forced match: {trend_name} - {theme}")
+                continue
+            theme_votes[theme] = theme_votes.get(theme, 0) + 1
+    strong_themes = [theme for theme, count in theme_votes.items() if count >= 2]
+    ambiguous = any(term.lower() in trend_name.lower() for term in BROAD_AMBIGUOUS_TERMS)
+    min_confidence = 0.95 if ambiguous else 0.7
+    if expected_theme and strong_themes:
+        proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in strong_themes]
+        min_prox = min(proximity_scores)
+        if min_prox < 0.5:
+            logger.info(f"Thematic proximity penalty for '{trend_name}': {strong_themes} (proximity {min_prox})")
+            return [], 0.0
+    if strong_themes and (ambiguous or len(strong_themes) > 1):
+        logger.info(f"Multi-signal agreement for '{trend_name}': {strong_themes} (confidence {min_confidence}) [ambiguous/multi-theme]")
+        return strong_themes, min_confidence
+    if strong_themes:
+        logger.info(f"Multi-signal agreement for '{trend_name}': {strong_themes} (confidence 0.95)")
+        return strong_themes, 0.95
+    if direct:
+        conf = LAYER_CONFIDENCE['direct'] if not ambiguous else 0.5
+        if expected_theme and direct:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in direct]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {direct} (proximity {min_prox})")
+                return [], 0.0
+        direct_filtered = [t for t in direct if not is_forced_flagged(trend_name, t)]
+        logger.info(f"Direct keyword match for '{trend_name}': {direct_filtered} (confidence {conf})")
+        return direct_filtered, conf
+    if fuzzy:
+        conf = LAYER_CONFIDENCE['fuzzy'] if not ambiguous else 0.4
+        if expected_theme and fuzzy:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in fuzzy]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {fuzzy} (proximity {min_prox})")
+                return [], 0.0
+        fuzzy_filtered = [t for t in fuzzy if not is_forced_flagged(trend_name, t)]
+        logger.info(f"Fuzzy match for '{trend_name}': {fuzzy_filtered} (confidence {conf})")
+        return fuzzy_filtered, conf
+    if semantic:
+        conf = LAYER_CONFIDENCE['semantic'] if not ambiguous else 0.3
+        if expected_theme and semantic:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in semantic]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {semantic} (proximity {min_prox})")
+                return [], 0.0
+        semantic_filtered = [t for t in semantic if not is_forced_flagged(trend_name, t)]
+        logger.info(f"Semantic similarity match for '{trend_name}': {semantic_filtered} (confidence {conf})")
+        return semantic_filtered, conf
     if ner:
-        logger.info(f"NER match for '{trend_name}': {ner} (confidence {LAYER_CONFIDENCE['ner']})")
-        return ner, LAYER_CONFIDENCE['ner']
+        conf = LAYER_CONFIDENCE['ner'] if not ambiguous else 0.2
+        if expected_theme and ner:
+            proximity_scores = [apply_thematic_proximity_penalty(expected_theme, t) for t in ner]
+            min_prox = min(proximity_scores)
+            if min_prox < 0.5:
+                logger.info(f"Thematic proximity penalty for '{trend_name}': {ner} (proximity {min_prox})")
+                return [], 0.0
+        ner_filtered = [t for t in ner if not is_forced_flagged(trend_name, t)]
+        logger.info(f"NER match for '{trend_name}': {ner_filtered} (confidence {conf})")
+        return ner_filtered, conf
     return [], 0.0
 
 
@@ -891,42 +1006,63 @@ def ai_validate_trend_relevance(trend_name, theme, tweets, summary, backstory):
     tweet_context = "\n".join([f"- {tweet}" for tweet in sample_tweets])
     
     prompt = f"""
-    You are a content strategist evaluating if a trending topic is relevant for content creation.
-    
-    Trend: {trend_name}
-    Theme: {theme}
-    Summary: {summary}
-    Backstory: {backstory}
-    Sample tweets:
-    {tweet_context}
-    
-    Question: Is this trend genuinely relevant to the {theme} theme for creating engaging content?
-    
-    Consider:
-    1. Is there a natural, authentic connection to {theme}?
-    2. Can you create compelling content about this trend from a {theme} perspective?
-    3. Would {theme} enthusiasts find this content valuable and interesting?
-    4. Is this a forced connection or a genuine opportunity?
-    
-    Respond with ONLY "YES" or "NO" and a brief reason.
-    """
+You are a content strategist. Given the trend '{trend_name}' and the theme '{theme}', decide if the connection is authentic, natural, and direct. If the connection feels forced, artificial, or only tangential, respond with "NO" and explain why. Otherwise, respond with "YES" and explain the authentic connection. Use a chain-of-thought explanation before your final answer.
+
+Trend: {trend_name}
+Theme: {theme}
+Summary: {summary}
+Backstory: {backstory}
+Sample tweets:
+{tweet_context}
+
+Is the connection between the trend and the theme NATURAL and DIRECT? If it feels forced, artificial, or only tangential, respond with "NO" and explain why. Otherwise, respond with "YES" and explain the authentic connection. First, explain your reasoning in detail, then give your answer as YES or NO on a new line.
+"""
     
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=100,
+            max_tokens=200,
             temperature=0.3
         )
-        
         result = response.choices[0].message.content.strip().lower()
         logger.info(f"AI validation for '{trend_name}' ({theme}): {result}")
-        
-        return result.startswith('yes')
-        
+        # Accept only if the answer is YES and the explanation is not a stretch
+        if result.startswith('yes'):
+            return True
+        return False
     except Exception as e:
         logger.error(f"Error in AI validation: {e}")
         return True  # Default to True if AI fails
+
+
+def classify_tweet_theme_relevance(tweet_text, theme):
+    """
+    Use LLM to classify if a tweet is directly about the theme (not just mentioning a keyword).
+    Returns True if the tweet is clearly about the theme, False otherwise.
+    """
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        return False
+    client = OpenAI(api_key=api_key)
+    prompt = f"""
+You are a social media analyst. Given the following tweet and theme, decide if the tweet is DIRECTLY about the theme (not just mentioning a keyword, but actually discussing the topic in a meaningful way). Respond with YES or NO and a brief reason.
+
+Theme: {theme}
+Tweet: {tweet_text}
+"""
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=60,
+            temperature=0.2
+        )
+        result = response.choices[0].message.content.strip().lower()
+        return result.startswith('yes')
+    except Exception as e:
+        logger.error(f"Error in tweet theme classification: {e}")
+        return False
 
 
 def validate_trend_with_tweets(trend_name, theme, max_results=10, min_ratio=0.2):
@@ -936,15 +1072,26 @@ def validate_trend_with_tweets(trend_name, theme, max_results=10, min_ratio=0.2)
     # Get summary and backstory for AI validation
     summary, backstory = per_trend_summary_with_backstory(trend_name, tweets)
     
-    # Let AI decide if this trend is relevant
+    # Let AI decide if this trend is relevant (stricter, chain-of-thought)
     if not ai_validate_trend_relevance(trend_name, theme, tweets, summary, backstory):
         logger.info(f"AI rejected trend '{trend_name}' for theme '{theme}': not genuinely relevant")
         return False
     
-    # Basic validation as backup
+    # Tweet-level contextuality scoring
+    contextually_relevant = 0
+    for tweet in tweets:
+        tweet_text = tweet['text']
+        if classify_tweet_theme_relevance(tweet_text, theme):
+            contextually_relevant += 1
+    ratio = contextually_relevant / max(1, len(tweets))
+    logger.info(f"Contextuality scoring for trend '{trend_name}' and theme '{theme}': {contextually_relevant}/{len(tweets)} tweets directly about theme ({ratio:.2f})")
+    if ratio < min_ratio:
+        logger.info(f"Trend '{trend_name}' failed contextuality threshold for theme '{theme}'")
+        return False
+    
+    # Basic validation as backup (legacy)
     match_count = 0
     context_match_count = 0
-    
     for tweet in tweets:
         tweet_text = tweet['text']
         tweet_themes, conf = match_themes_with_confidence(tweet_text)
@@ -952,15 +1099,11 @@ def validate_trend_with_tweets(trend_name, theme, max_results=10, min_ratio=0.2)
             match_count += 1
         if theme_context_check(tweet_text, theme):
             context_match_count += 1
-    
-    ratio = match_count / max(1, len(tweets))
-    logger.info(f"Basic validation for trend '{trend_name}' and theme '{theme}': {match_count}/{len(tweets)} tweets matched ({ratio:.2f}), {context_match_count} context matches")
-    
-    # Simple threshold check as backup
-    if ratio < min_ratio and context_match_count == 0:
+    ratio_legacy = match_count / max(1, len(tweets))
+    logger.info(f"Basic validation for trend '{trend_name}' and theme '{theme}': {match_count}/{len(tweets)} tweets matched ({ratio_legacy:.2f}), {context_match_count} context matches")
+    if ratio_legacy < min_ratio and context_match_count == 0:
         logger.info(f"Trend '{trend_name}' failed basic validation backup check")
         return False
-    
     return True
 
 
@@ -1567,60 +1710,6 @@ def main():
         max_per_theme=CONFIG['max_trends_per_theme']
     )
 
-
-def check_system_health():
-    """
-    Check system health and configuration validity.
-    """
-    health = {
-        'healthy': True,
-        'issues': [],
-        'warnings': []
-    }
-    
-    # Check required environment variables
-    required_env_vars = ['OPENAI_API_KEY']
-    for var in required_env_vars:
-        if not os.getenv(var):
-            health['issues'].append(f"Missing environment variable: {var}")
-            health['healthy'] = False
-    
-    # Check Twitter API access
-    try:
-        client = get_twitter_client()
-        # Try a simple API call to test connectivity
-        test_response = client.get_trends(23424977)  # US WOEID
-        if not test_response:
-            health['warnings'].append("Twitter API returned empty response")
-    except Exception as e:
-        health['issues'].append(f"Twitter API connectivity issue: {e}")
-        health['healthy'] = False
-    
-    # Check configuration validity
-    if CONFIG['min_engagement_score'] < 0 or CONFIG['min_engagement_score'] > 1:
-        health['issues'].append("Invalid min_engagement_score (must be 0-1)")
-        health['healthy'] = False
-    
-    if CONFIG['max_regions'] is not None and CONFIG['max_regions'] <= 0:
-        health['issues'].append("Invalid max_regions (must be > 0)")
-        health['healthy'] = False
-    
-    # Check region weights
-    for region in REGIONS.keys():
-        if region not in CONFIG['region_weights']:
-            health['warnings'].append(f"Missing region weight for: {region}")
-    
-    # Log health status
-    if health['healthy']:
-        logger.info("System health check passed")
-    else:
-        logger.error(f"System health check failed: {health['issues']}")
-    
-    if health['warnings']:
-        logger.warning(f"System health warnings: {health['warnings']}")
-    
-    return health
-    
     if not top_trends_by_theme:
         logger.warning("No relevant trends found for any theme")
         return []
@@ -1708,6 +1797,60 @@ def check_system_health():
     return content_packages
 
 
+def check_system_health():
+    """
+    Check system health and configuration validity.
+    """
+    health = {
+        'healthy': True,
+        'issues': [],
+        'warnings': []
+    }
+    
+    # Check required environment variables
+    required_env_vars = ['OPENAI_API_KEY']
+    for var in required_env_vars:
+        if not os.getenv(var):
+            health['issues'].append(f"Missing environment variable: {var}")
+            health['healthy'] = False
+    
+    # Check Twitter API access
+    try:
+        client = get_twitter_client()
+        # Try a simple API call to test connectivity
+        test_response = client.get_trends(23424977)  # US WOEID
+        if not test_response:
+            health['warnings'].append("Twitter API returned empty response")
+    except Exception as e:
+        health['issues'].append(f"Twitter API connectivity issue: {e}")
+        health['healthy'] = False
+    
+    # Check configuration validity
+    if CONFIG['min_engagement_score'] < 0 or CONFIG['min_engagement_score'] > 1:
+        health['issues'].append("Invalid min_engagement_score (must be 0-1)")
+        health['healthy'] = False
+    
+    if CONFIG['max_regions'] is not None and CONFIG['max_regions'] <= 0:
+        health['issues'].append("Invalid max_regions (must be > 0)")
+        health['healthy'] = False
+    
+    # Check region weights
+    for region in REGIONS.keys():
+        if region not in CONFIG['region_weights']:
+            health['warnings'].append(f"Missing region weight for: {region}")
+    
+    # Log health status
+    if health['healthy']:
+        logger.info("System health check passed")
+    else:
+        logger.error(f"System health check failed: {health['issues']}")
+    
+    if health['warnings']:
+        logger.warning(f"System health warnings: {health['warnings']}")
+    
+    return health
+
+
 def export_results(content_packages, filename=None):
     """
     Export results to JSON file with timestamp.
@@ -1735,6 +1878,31 @@ def export_results(content_packages, filename=None):
     except Exception as e:
         logger.error(f"Error exporting results: {e}")
         return None
+
+
+FEEDBACK_FILE = 'trend_theme_feedback.json'
+
+def load_feedback_flags():
+    if os.path.exists(FEEDBACK_FILE):
+        with open(FEEDBACK_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {}
+
+def save_feedback_flags(flags):
+    with open(FEEDBACK_FILE, 'w', encoding='utf-8') as f:
+        json.dump(flags, f, indent=2, ensure_ascii=False)
+
+def flag_forced_match(trend_name, theme):
+    flags = load_feedback_flags()
+    key = f"{trend_name}::{theme}"
+    flags[key] = 'forced'
+    save_feedback_flags(flags)
+    logger.info(f"User flagged forced match: {trend_name} - {theme}")
+
+def is_forced_flagged(trend_name, theme):
+    flags = load_feedback_flags()
+    key = f"{trend_name}::{theme}"
+    return flags.get(key) == 'forced'
 
 
 if __name__ == "__main__":

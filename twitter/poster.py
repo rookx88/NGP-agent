@@ -1,9 +1,10 @@
 import tweepy
 import logging
-from .client import get_twitter_client
+from twitter.client import get_twitter_client
 from ai.personality import VintageRadioHost
 import requests
-from .utils import count_content_length
+from twitter.utils import count_content_length
+import io
 
 logger = logging.getLogger(__name__)
 
@@ -34,29 +35,51 @@ class BroadcastScheduler:
 
     def _upload_media(self, image_url):
         if image_url:
-            # Download image with a custom User-Agent to comply with
-            # Wikimedia's policy. The default python-requests agent is
-            # often blocked with a 403 error.
-            headers = {"User-Agent": "HistoricalRadioBot/1.0"}
-            response = requests.get(image_url, headers=headers, timeout=10)
-            response.raise_for_status()
+            if 'example.com' in image_url:
+                logger.warning("Skipping fallback image upload")
+                return None
             
-            # Upload to Twitter
-            media = self.twitter_client.v1.media_upload(
-                filename="historical_image.jpg",
-                file=response.content
-            )
-            return media.media_id
+            try:
+                # Add proper User-Agent for Wikimedia
+                headers = {
+                    'User-Agent': 'VintageRadioBot/1.0 (https://github.com/yourusername/NGP-agent; your-email@example.com) requests/2.31.0'
+                }
+                
+                # Download image
+                response = requests.get(image_url, headers=headers, timeout=10)
+                response.raise_for_status()
+                
+                # Upload to Twitter
+                file_obj = io.BytesIO(response.content)
+                file_obj.name = "historical_image.jpg"
+                
+                media = self.twitter_client.v1.media_upload(
+                    filename="historical_image.jpg",
+                    file=file_obj
+                )
+                return media.media_id
+            except requests.exceptions.HTTPError as e:
+                logger.warning(f"Image download failed: {e}")
+                return None
+            except Exception as e:
+                logger.error(f"Media upload failed: {e}")
+                return None
         return None
 
     def _post_tweet(self, tweet_text, media_id):
         """Use Twitter Blue API endpoint"""
         try:
+            # Only include media_ids if we have a valid media_id
+            kwargs = {
+                "text": tweet_text,
+                "user_auth": True
+            }
+            
+            if media_id:
+                kwargs["media_ids"] = [media_id]
+            
             return self.twitter_client.create_tweet(
-                text=tweet_text,
-                media_ids=[media_id] if media_id else None,
-                user_auth=True,  # Premium account flag
-                format='detailed'  # Allow extended content
+                **kwargs
             )
         except requests.exceptions.RequestException as e:
             logger.warning(f"Image download failed: {e}, posting text-only")
